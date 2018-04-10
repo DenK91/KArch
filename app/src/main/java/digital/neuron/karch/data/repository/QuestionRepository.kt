@@ -23,12 +23,10 @@ class QuestionRepository @Inject constructor(
                 Flowable.just(caches.toList())
             } else {
                 // else return data from local storage
-                localDataSource.loadQuestions(false)
-                        .take(1)
-                        .flatMap({ Flowable.fromIterable(it) })
+                localDataSource.loadQuestions(false).take(1)
+                        .flatMap { Flowable.fromIterable(it) }
                         .doOnNext { question -> caches.add(question) }
-                        .toList()
-                        .toFlowable()
+                        .toList().toFlowable()
                         .filter { list -> !list.isEmpty() }
                         .switchIfEmpty(refreshData()) // If local data is empty, fetch from remote source instead.
             }
@@ -43,10 +41,7 @@ class QuestionRepository @Inject constructor(
      */
     private fun refreshData(): Flowable<List<Question>> {
         return remoteDataSource.loadQuestions(true).doOnNext {
-            // Clear cache
-            caches.clear()
-            // Clear data in local storage
-            localDataSource.clearData()
+            clearData()
         }.flatMap({ Flowable.fromIterable(it) }).doOnNext { question ->
             caches.add(question)
             localDataSource.addQuestion(question)

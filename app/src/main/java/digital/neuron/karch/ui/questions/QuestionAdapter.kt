@@ -12,7 +12,7 @@ import java.security.InvalidParameterException
 import digital.neuron.karch.R
 import digital.neuron.karch.data.model.Question
 import digital.neuron.karch.ui.base.BaseRecyclerViewAdapter
-import digital.neuron.karch.util.DateTimeUtils
+import digital.neuron.karch.util.toRelativeTimeSpanString
 import io.reactivex.annotations.NonNull
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_question.*
@@ -24,7 +24,7 @@ internal class QuestionAdapter(@param:NonNull private val questions: MutableList
             val (_, user, creationDate, title) = question
             tvTitle.text = title
             tvUser.text = user!!.name
-            tvCreatedTime.text = DateTimeUtils.formatRelativeTime(creationDate)
+            tvCreatedTime.text = creationDate.toRelativeTimeSpanString()
             Glide.with(ivProfile).load(user.image).into(ivProfile)
         }
     }
