@@ -38,4 +38,6 @@ ext {
     rxAndroidVersion = '2.0.2'
     anko_version='0.10.4'
     glideVersion = '4.3.1'
+    mockitoVersion = '2.8.9'
+    hamcrestVersion = '1.3'
 }
